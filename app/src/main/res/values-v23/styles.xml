@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="MoviTheme" parent="AppTheme">
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="android:colorPrimaryDark">@color/md_grey_200</item>
+  </style>
+</resources>
