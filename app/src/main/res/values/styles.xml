@@ -11,4 +11,9 @@
     <style name="MoviTheme" parent="AppTheme">
     </style>
 
+    <style name="genreText">
+        <item name="android:textSize">10dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

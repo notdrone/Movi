@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<me.droan.movi.view.SimpleLayoutItem xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:padding="16dp"
     >
   <android.support.v7.widget.CardView
       android:layout_width="176dp"
@@ -22,17 +21,23 @@
         android:orientation="vertical"
         >
       <RatingBar
+          android:id="@+id/rating"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
           android:progressTint="@color/accent"
           android:rating="3.5"
           style="?android:attr/ratingBarStyleSmall"
           />
       <TextView
+          android:id="@+id/genre"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:paddingBottom="8dp"
+          android:paddingLeft="6dp"
+          android:paddingRight="6dp"
           android:text="Action, Adventure"
+          style="@style/genreText"
           />
     </LinearLayout>
   </android.support.v7.widget.CardView>
@@ -44,11 +49,13 @@
       app:cardElevation="8dp"
       app:cardUseCompatPadding="true"
       >
-    <com.facebook.drawee.view.DraweeView
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_yellow_500"
+        app:failureImage="@color/md_grey_300"
+        app:placeholderImage="@color/accent"
         />
   </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</me.droan.movi.view.SimpleLayoutItem>
