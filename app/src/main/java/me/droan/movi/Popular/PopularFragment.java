@@ -22,9 +22,22 @@ public class PopularFragment extends AbstractFragment {
   }
 
   private void initRecyclerView() {
-    GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
+    GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+    fancyGridManager(layoutManager);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(new PopularAdapter(getActivity()));
     recyclerView.addItemDecoration(new SpacesItemDecoration(20));
+  }
+
+  private void fancyGridManager(GridLayoutManager manager) {
+    manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+      @Override public int getSpanSize(int position) {
+        if (position == 0) {
+          return 2;
+        } else {
+          return 1;
+        }
+      }
+    });
   }
 }

@@ -35,7 +35,7 @@ public class MoviActivity extends AppCompatActivity {
 
   private void initTabIcons() {
     for (int i = 0; i < 4; i++) {
-      tabLayout.getTabAt(i).setIcon(R.drawable.ic_whatshot_selected);
+      tabLayout.getTabAt(i).setIcon(R.drawable.popular_icon);
     }
   }
 

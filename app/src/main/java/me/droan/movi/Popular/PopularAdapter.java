@@ -25,7 +25,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
     if (viewType == VIEW_FIRST) {
       return new Holder(inflater.inflate(R.layout.recycler_first_item, parent, false));
     } else if (viewType == VIEW_OTHER) {
-      return new Holder(inflater.inflate(R.layout.recycler_first_item, parent, false));
+      return new Holder(inflater.inflate(R.layout.recycler_other_item, parent, false));
     } else if (viewType == VIEW_FOOTER) {
       return new Holder(inflater.inflate(R.layout.recycler_first_item, parent, false));
     } else {
