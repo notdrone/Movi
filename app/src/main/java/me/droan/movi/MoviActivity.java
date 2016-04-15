@@ -11,7 +11,10 @@ import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
-import me.droan.movi.Popular.PopularFragment;
+import me.droan.movi.favorite.FavouriteFragment;
+import me.droan.movi.popular.PopularFragment;
+import me.droan.movi.top.TopFragment;
+import me.droan.movi.upcomingTop.UpcomingFragment;
 
 public class MoviActivity extends AppCompatActivity {
 
@@ -42,9 +45,9 @@ public class MoviActivity extends AppCompatActivity {
   private void initViewPager() {
     Adapter adapter = new Adapter(getSupportFragmentManager());
     adapter.addFragment(PopularFragment.newInstance());
-    adapter.addFragment(PopularFragment.newInstance());
-    adapter.addFragment(PopularFragment.newInstance());
-    adapter.addFragment(PopularFragment.newInstance());
+    adapter.addFragment(UpcomingFragment.newInstance());
+    adapter.addFragment(TopFragment.newInstance());
+    adapter.addFragment(FavouriteFragment.newInstance());
     viewPager.setAdapter(adapter);
   }
 
