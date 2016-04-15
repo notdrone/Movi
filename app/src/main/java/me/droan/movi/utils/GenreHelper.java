@@ -93,6 +93,6 @@ public class GenreHelper {
       }
       genre = genre + ", " + name;
     }
-    return genre.substring(1);
+    return genre.substring(genre.length() > 0 ? 1 : 0);
   }
 }

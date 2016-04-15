@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import me.droan.movi.favorite.FavouriteFragment;
 import me.droan.movi.popular.PopularFragment;
-import me.droan.movi.top.TopFragment;
+import me.droan.movi.upcomingTop.TopFragment;
 import me.droan.movi.upcomingTop.UpcomingFragment;
 
 public class MoviActivity extends AppCompatActivity {
@@ -37,8 +37,12 @@ public class MoviActivity extends AppCompatActivity {
   }
 
   private void initTabIcons() {
+    int icons[] = {
+        R.drawable.popular_icon, R.drawable.upcomming_icon, R.drawable.top_icon,
+        R.drawable.favorite_icon
+    };
     for (int i = 0; i < 4; i++) {
-      tabLayout.getTabAt(i).setIcon(R.drawable.popular_icon);
+      tabLayout.getTabAt(i).setIcon(icons[i]);
     }
   }
 

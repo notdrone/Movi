@@ -41,7 +41,8 @@ abstract public class MoviFragment extends Fragment {
     fancyGridManager(layoutManager, getFancyGridType());
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(getAdapter());
-    recyclerView.addItemDecoration(new SpacesItemDecoration(20));
+    int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
+    recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
   }
 
   private void fancyGridManager(GridLayoutManager manager, int fancyType) {

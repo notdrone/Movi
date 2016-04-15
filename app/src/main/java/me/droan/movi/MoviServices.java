@@ -12,4 +12,6 @@ public interface MoviServices {
   @GET("popular?api_key=" + Constants.API_KEY) Call<MovieList> getPopularMovies();
 
   @GET("top_rated?api_key=" + Constants.API_KEY) Call<MovieList> getTopRatedMovies();
+
+  @GET("upcoming?api_key=" + Constants.API_KEY) Call<MovieList> getUpcomingRatedMovies();
 }
