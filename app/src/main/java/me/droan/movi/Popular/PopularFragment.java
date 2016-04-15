@@ -54,9 +54,18 @@ public class PopularFragment extends MoviFragment {
     });
   }
 
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable("Key", list);
+  }
+
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    initRetrofit();
+    if (savedInstanceState != null) {
+
+    } else {
+      initRetrofit();
+    }
   }
 
   @Override public void initViews() {
