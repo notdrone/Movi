@@ -1,5 +1,6 @@
 package me.droan.movi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -70,9 +71,14 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
 
   @Override public void openDetail(String str) {
     if (tabMode) {
-      Toast.makeText(MoviActivity.this, "TAB:" + str, Toast.LENGTH_SHORT).show();
+
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragmentContainer, DetailFragment.newInstance(str))
+          .commit();
+
     } else {
-      Toast.makeText(MoviActivity.this, "PHONE:" + str, Toast.LENGTH_SHORT).show();
+      Intent intent = DetailsActivity.putIntent(this, str);
+      startActivity(intent);
     }
   }
 
