@@ -1,6 +1,7 @@
 package me.droan.movi.upcomingTop;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,7 +58,11 @@ public class TopFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(new CommonUpcomingTopAdapter(getActivity(), list));
+        new Handler().postDelayed(new Runnable() {
+          @Override public void run() {
+            recyclerView.setAdapter(new CommonUpcomingTopAdapter(getActivity(), list));
+          }
+        }, 200);
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {

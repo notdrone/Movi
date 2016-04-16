@@ -13,10 +13,17 @@
       >
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="@android:color/transparent"
         />
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        ></FrameLayout>
   </LinearLayout>
   <android.support.design.widget.AppBarLayout
       android:layout_width="match_parent"
@@ -34,6 +41,7 @@
           android:layout_height="wrap_content"
           app:tabGravity="fill"
           app:tabIndicatorColor="@color/accent"
+          app:tabMaxWidth="90dp"
           app:tabMode="scrollable"
           />
     </android.support.v7.widget.Toolbar>

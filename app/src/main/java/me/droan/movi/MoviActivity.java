@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ import me.droan.movi.popular.PopularFragment;
 import me.droan.movi.upcomingTop.TopFragment;
 import me.droan.movi.upcomingTop.UpcomingFragment;
 
-public class MoviActivity extends AppCompatActivity {
+public class MoviActivity extends AppCompatActivity implements MoviFragment.OpenDetailListener {
 
   @Bind(R.id.toolbar) Toolbar toolbar;
   @Bind(R.id.tabLayout) TabLayout tabLayout;
   @Bind(R.id.viewPager) ViewPager viewPager;
-
+  private boolean tabMode;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_movi);
@@ -34,6 +35,12 @@ public class MoviActivity extends AppCompatActivity {
     initViewPager();
     tabLayout.setupWithViewPager(viewPager);
     initTabIcons();
+    if (findViewById(R.id.fragmentContainer) == null) {
+      tabMode = false;
+    } else {
+      tabMode = true;
+    }
+    Toast.makeText(MoviActivity.this, "" + tabMode, Toast.LENGTH_SHORT).show();
   }
 
   private void initTabIcons() {
@@ -58,6 +65,14 @@ public class MoviActivity extends AppCompatActivity {
   private void initTabs() {
     for (int i = 0; i < 4; i++) {
       tabLayout.addTab(tabLayout.newTab());
+    }
+  }
+
+  @Override public void openDetail(String str) {
+    if (tabMode) {
+      Toast.makeText(MoviActivity.this, "TAB:" + str, Toast.LENGTH_SHORT).show();
+    } else {
+      Toast.makeText(MoviActivity.this, "PHONE:" + str, Toast.LENGTH_SHORT).show();
     }
   }
 

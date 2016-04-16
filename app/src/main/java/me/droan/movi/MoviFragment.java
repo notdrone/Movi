@@ -73,14 +73,16 @@ abstract public class MoviFragment extends Fragment {
     display.getSize(size);
     int width = size.x;
     int height = size.y;
-    if (width > 1500) {
-      spanCount = 3;
-    }
     return spanCount;
   }
 
   abstract public RecyclerView.Adapter getAdapter();
 
   abstract public int getFancyGridType();
+
+  public interface OpenDetailListener {
+    void openDetail(String str);
+  }
+
 }
 

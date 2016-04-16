@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 import java.util.ArrayList;
 import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
@@ -45,7 +46,13 @@ public class PopularFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(new PopularAdapter(getActivity(), list));
+        recyclerView.setAdapter(
+            new PopularAdapter(getActivity(), list, new PopularAdapter.OnItemClickListener() {
+              @Override public void onItemClick(String str) {
+                Toast.makeText(getActivity(), "FRAGMENT:" + str, Toast.LENGTH_SHORT).show();
+                ((OpenDetailListener) getActivity()).openDetail(str);
+              }
+            }));
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {
@@ -72,7 +79,7 @@ public class PopularFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new PopularAdapter(getActivity(), list);
+    return new PopularAdapter(getActivity(), list, null);
   }
 
   @Override public int getFancyGridType() {

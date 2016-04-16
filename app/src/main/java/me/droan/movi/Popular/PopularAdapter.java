@@ -3,7 +3,9 @@ package me.droan.movi.popular;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import java.util.ArrayList;
 import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
@@ -19,10 +21,12 @@ public class PopularAdapter extends RecyclerView.Adapter {
   private static final int VIEW_OTHER = 433;
   private Context context;
   private ArrayList<Result> list;
+  private  OnItemClickListener listener;
 
-  public PopularAdapter(Context context, ArrayList<Result> list) {
+  public PopularAdapter(Context context, ArrayList<Result> list,OnItemClickListener listener) {
     this.context = context;
     this.list = list;
+    this.listener=listener;
   }
 
   @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,7 +51,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
       holder.bindTo(list.get(position));
     } else {
       Holder2 holder = (Holder2) _holder;
-      holder.bindTo(list.get(position));
+      holder.bindTo(list.get(position), listener );
     }
 
   }
@@ -62,6 +66,10 @@ public class PopularAdapter extends RecyclerView.Adapter {
     } else {
       return VIEW_OTHER;
     }
+  }
+
+  public interface OnItemClickListener{
+    public void onItemClick(String str);
   }
 
   class Holder1 extends RecyclerView.ViewHolder {
@@ -80,13 +88,19 @@ public class PopularAdapter extends RecyclerView.Adapter {
   class Holder2 extends RecyclerView.ViewHolder {
     SimpleLayoutItem itemView;
 
-    public Holder2(SimpleLayoutItem itemView) {
+    public Holder2(final SimpleLayoutItem itemView) {
       super(itemView);
       this.itemView = itemView;
     }
 
-    public void bindTo(Result model) {
+    public void bindTo(final Result model, final OnItemClickListener listener) {
       itemView.onBind(model);
+      itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          Toast.makeText(context, ""+model.overview, Toast.LENGTH_SHORT).show();
+          listener.onItemClick(model.title);
+        }
+      });
 
     }
   }
