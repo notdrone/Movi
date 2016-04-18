@@ -15,9 +15,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by drone on 15/04/16.
- */
 public class TopFragment extends MoviFragment {
   private static final String TAG = "TopFragment";
   MoviServices services;

@@ -68,11 +68,7 @@ public class PopularFragment extends MoviFragment {
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (savedInstanceState != null) {
-
-    } else {
       initRetrofit();
-    }
   }
 
   @Override public void initViews() {
