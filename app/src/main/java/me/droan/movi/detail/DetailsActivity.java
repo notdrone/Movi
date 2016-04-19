@@ -1,17 +1,19 @@
-package me.droan.movi;
+package me.droan.movi.detail;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import me.droan.movi.MovieListModel.Result;
+import me.droan.movi.R;
 
 public class DetailsActivity extends AppCompatActivity {
 
-  public static Intent putIntent(Context context, String str) {
+  public static Intent putIntent(Context context, Result model) {
 
     Intent intent = new Intent(context, DetailsActivity.class);
-    intent.putExtra("KEY", str);
+    intent.putExtra("KEY", model);
     return intent;
   }
 
@@ -22,7 +24,7 @@ public class DetailsActivity extends AppCompatActivity {
     if (fm.findFragmentById(R.id.fragmentContainer) == null) {
       fm.beginTransaction()
           .add(R.id.fragmentContainer,
-              DetailFragment.newInstance(getIntent().getStringExtra("KEY")))
+              DetailFragment.newInstance((Result) getIntent().getSerializableExtra("KEY")))
           .commit();
     }
   }

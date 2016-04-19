@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.utils.SpacesItemDecoration;
 
 /**
@@ -81,7 +82,7 @@ abstract public class MoviFragment extends Fragment {
   abstract public int getFancyGridType();
 
   public interface OpenDetailListener {
-    void openDetail(String str);
+    void openDetail(Result model);
   }
 
 }

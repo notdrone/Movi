@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,9 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
+import me.droan.movi.MovieListModel.Result;
+import me.droan.movi.detail.DetailFragment;
+import me.droan.movi.detail.DetailsActivity;
 import me.droan.movi.favorite.FavouriteFragment;
 import me.droan.movi.popular.PopularFragment;
 import me.droan.movi.upcomingTop.TopFragment;
@@ -70,15 +72,15 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
     }
   }
 
-  @Override public void openDetail(String str) {
+  @Override public void openDetail(Result model) {
     if (tabMode) {
 
       getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragmentContainer, DetailFragment.newInstance(str))
+          .replace(R.id.fragmentContainer, DetailFragment.newInstance(model))
           .commit();
 
     } else {
-      Intent intent = DetailsActivity.putIntent(this, str);
+      Intent intent = DetailsActivity.putIntent(this, model);
       startActivity(intent);
     }
   }

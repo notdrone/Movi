@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 import java.util.ArrayList;
 import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
@@ -46,11 +45,10 @@ public class PopularFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(
-            new PopularAdapter(getActivity(), list, new PopularAdapter.OnItemClickListener() {
-              @Override public void onItemClick(String str) {
-                Toast.makeText(getActivity(), "FRAGMENT:" + str, Toast.LENGTH_SHORT).show();
-                ((OpenDetailListener) getActivity()).openDetail(str);
+        recyclerView.setAdapter(new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list,
+            new PoUpToAdapter.OnItemClickListener() {
+              @Override public void onItemClick(Result model) {
+                ((OpenDetailListener) getActivity()).openDetail(model);
               }
             }));
       }
@@ -75,7 +73,7 @@ public class PopularFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new PopularAdapter(getActivity(), list, null);
+    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list, null);
   }
 
   @Override public int getFancyGridType() {

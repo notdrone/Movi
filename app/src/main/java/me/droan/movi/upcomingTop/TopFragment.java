@@ -1,7 +1,6 @@
 package me.droan.movi.upcomingTop;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +9,7 @@ import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
 import me.droan.movi.MovieListModel.MovieList;
 import me.droan.movi.MovieListModel.Result;
+import me.droan.movi.popular.PoUpToAdapter;
 import me.droan.movi.utils.RetrofitHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +32,7 @@ public class TopFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new CommonUpcomingTopAdapter(getActivity(), list);
+    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_TOP, list, null);
   }
 
   @Override public int getFancyGridType() {
@@ -55,11 +55,12 @@ public class TopFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        new Handler().postDelayed(new Runnable() {
-          @Override public void run() {
-            recyclerView.setAdapter(new CommonUpcomingTopAdapter(getActivity(), list));
-          }
-        }, 200);
+        recyclerView.setAdapter(new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_TOP, list,
+            new PoUpToAdapter.OnItemClickListener() {
+              @Override public void onItemClick(Result model) {
+                ((OpenDetailListener) getActivity()).openDetail(model);
+              }
+            }));
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {

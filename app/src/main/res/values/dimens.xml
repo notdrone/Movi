@@ -3,4 +3,5 @@
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
   <dimen name="grid_spacing">12dp</dimen>
+  <dimen name="poster_elevation">8dp</dimen>
 </resources>

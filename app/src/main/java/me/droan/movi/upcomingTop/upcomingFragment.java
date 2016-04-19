@@ -9,6 +9,7 @@ import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
 import me.droan.movi.MovieListModel.MovieList;
 import me.droan.movi.MovieListModel.Result;
+import me.droan.movi.popular.PoUpToAdapter;
 import me.droan.movi.utils.RetrofitHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +33,7 @@ public class UpcomingFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new CommonUpcomingTopAdapter(getActivity(), list);
+    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_UPCOMING, list, null);
   }
 
   @Override public int getFancyGridType() {
@@ -54,7 +55,12 @@ public class UpcomingFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(new CommonUpcomingTopAdapter(getActivity(), list));
+        recyclerView.setAdapter(new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_UPCOMING, list,
+            new PoUpToAdapter.OnItemClickListener() {
+              @Override public void onItemClick(Result model) {
+                ((OpenDetailListener) getActivity()).openDetail(model);
+              }
+            }));
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {
@@ -65,11 +71,7 @@ public class UpcomingFragment extends MoviFragment {
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (savedInstanceState != null) {
-      list = (ArrayList<Result>) savedInstanceState.getSerializable("key");
-    } else {
       initRetrofit();
-    }
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
