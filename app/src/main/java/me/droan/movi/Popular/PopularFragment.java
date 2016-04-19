@@ -74,7 +74,6 @@ public class PopularFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT).show();
     return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list,
         new PoUpToAdapter.OnItemClickListener() {
           @Override public void onItemClick(Result model) {

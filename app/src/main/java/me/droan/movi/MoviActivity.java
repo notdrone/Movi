@@ -44,7 +44,6 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
     } else {
       tabMode = true;
     }
-    Toast.makeText(MoviActivity.this, "" + tabMode, Toast.LENGTH_SHORT).show();
   }
 
   private void initTabIcons() {
