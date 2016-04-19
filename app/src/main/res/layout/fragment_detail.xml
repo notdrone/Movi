@@ -18,7 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="20dp"
         >
       <FrameLayout
           android:layout_width="match_parent"
@@ -47,14 +50,6 @@
               android:paddingRight="16dp"
               android:paddingTop="8dp"
               >
-            <RatingBar
-                android:id="@+id/rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:progressTint="@color/accent"
-                android:rating="3.5"
-                style="?android:attr/ratingBarStyleSmall"
-                />
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -63,6 +58,15 @@
                 android:text="Captain America: Civil War"
                 android:textSize="18dp"
                 />
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progressTint="@color/accent"
+                android:rating="3.5"
+                style="?android:attr/ratingBarStyleSmall"
+                />
+
             <TextView
                 android:id="@+id/release"
                 android:layout_width="wrap_content"
@@ -70,12 +74,20 @@
                 android:text="Action, Adventure"
                 style="@style/genreText"
                 />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
             <Button
                 android:id="@+id/favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="16dp"
 
                 />
+            </FrameLayout>
           </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -118,7 +130,7 @@
               android:gravity="center_vertical"
               android:paddingEnd="8dp"
               android:paddingStart="64dp"
-              android:text="ABC"
+              android:text="Trailers"
               android:textColor="#fff"
               android:textSize="16sp"
               />
@@ -151,7 +163,7 @@
               android:gravity="center_vertical"
               android:paddingEnd="8dp"
               android:paddingStart="64dp"
-              android:text="ABC"
+              android:text="Casts"
               android:textColor="#fff"
               android:textSize="16sp"
               />
@@ -184,7 +196,7 @@
               android:gravity="center_vertical"
               android:paddingEnd="8dp"
               android:paddingStart="64dp"
-              android:text="ABC"
+              android:text="Reviews"
               android:textColor="#fff"
               android:textSize="16sp"
               />

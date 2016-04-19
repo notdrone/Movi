@@ -24,8 +24,14 @@ abstract public class MoviFragment extends Fragment {
   public static final int FAVORITE_FANCY_TYPE = 581;
   @Bind(R.id.recyclerView) public RecyclerView recyclerView;
   int spanCount = 2;
+  RecyclerView.Adapter adapter;
 
   abstract public void initViews();
+
+  @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    adapter = getAdapter();
+  }
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -41,7 +47,7 @@ abstract public class MoviFragment extends Fragment {
     GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), getSpanCount());
     fancyGridManager(layoutManager, getFancyGridType());
     recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(getAdapter());
+    recyclerView.setAdapter(adapter);
     int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
     recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
   }

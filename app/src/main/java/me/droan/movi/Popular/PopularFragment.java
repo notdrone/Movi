@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 import java.util.ArrayList;
 import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
@@ -73,7 +74,13 @@ public class PopularFragment extends MoviFragment {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list, null);
+    Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT).show();
+    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list,
+        new PoUpToAdapter.OnItemClickListener() {
+          @Override public void onItemClick(Result model) {
+            ((OpenDetailListener) getActivity()).openDetail(model);
+          }
+        });
   }
 
   @Override public int getFancyGridType() {

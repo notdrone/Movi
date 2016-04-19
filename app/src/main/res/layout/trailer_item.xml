@@ -8,12 +8,12 @@
   <FrameLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="16dp"
+      android:layout_margin="12dp"
       >
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        app:viewAspectRatio="2.1"
+        android:layout_width="166dp"
+        android:layout_height="100dp"
+        app:placeholderImage="@color/md_blue_300"
         />
     <ImageView
         android:layout_width="wrap_content"
