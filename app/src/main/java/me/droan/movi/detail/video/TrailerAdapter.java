@@ -1,35 +1,38 @@
-package me.droan.movi.detail;
+package me.droan.movi.detail.video;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.List;
 import me.droan.movi.R;
+import me.droan.movi.detail.video.model.Result;
 
 /**
  * Created by drone on 19-04-2016.
  */
-public class ReviewAdapter extends RecyclerView.Adapter {
+public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.Holder> {
 
   private Context context;
+  private List<Result> list;
 
-  public ReviewAdapter(Context context) {
+  public TrailerAdapter(Context context, List<Result> list) {
     this.context = context;
+    this.list = list;
   }
 
-  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(context);
-    View view = inflater.inflate(R.layout.review_item, parent, false);
+    View view = inflater.inflate(R.layout.trailer_item, parent, false);
     return new Holder(view);
   }
 
-  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+  @Override public void onBindViewHolder(Holder holder, int position) {
   }
 
   @Override public int getItemCount() {
-    return 20;
+    return list.size();
   }
 
   class Holder extends RecyclerView.ViewHolder {

@@ -1,6 +1,8 @@
 package me.droan.movi;
 
 import me.droan.movi.MovieListModel.MovieList;
+import me.droan.movi.detail.review.model.ReviewModel;
+import me.droan.movi.detail.video.model.VideoModel;
 import me.droan.movi.utils.Constants;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,9 +18,9 @@ public interface MoviServices {
 
   @GET("upcoming?api_key=" + Constants.API_KEY) Call<MovieList> getUpcomingRatedMovies();
 
-  @GET("movie/{id}/reviews?api_key=" + Constants.API_KEY) Call<MovieList> getReviews(
+  @GET("{id}/reviews?api_key=" + Constants.API_KEY) Call<ReviewModel> getReviews(
       @Path("id") int id);
 
-  @GET("movie/{id}/videos?api_key=" + Constants.API_KEY) Call<MovieList> getVideos(
+  @GET("{id}/videos?api_key=" + Constants.API_KEY) Call<VideoModel> getVideos(
       @Path("id") int id);
 }

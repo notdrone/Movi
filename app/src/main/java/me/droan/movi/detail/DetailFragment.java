@@ -5,9 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +16,20 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
+import java.util.ArrayList;
+import me.droan.movi.MoviServices;
 import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
+import me.droan.movi.detail.review.ReviewAdapter;
+import me.droan.movi.detail.review.model.ReviewModel;
+import me.droan.movi.detail.video.TrailerAdapter;
+import me.droan.movi.detail.video.model.VideoModel;
 import me.droan.movi.utils.Constants;
+import me.droan.movi.utils.RetrofitHelper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by drone on 16/04/16.
@@ -28,11 +39,12 @@ public class DetailFragment extends Fragment {
   @Bind(R.id.poster) SimpleDraweeView poster;
   @Bind(R.id.backdrop) SimpleDraweeView backdrop;
   @Bind(R.id.rating) RatingBar rating;
-  //@Bind(R.id.description) TextView description;
+  @Bind(R.id.description) TextView description;
   @Bind(R.id.release) TextView release;
   @Bind(R.id.castRecycler) RecyclerView castRecycler;
   @Bind(R.id.reviewRecycler) RecyclerView reviewRecycler;
   @Bind(R.id.trailerRecycler) RecyclerView tralerRecycler;
+  @Bind(R.id.reviewRoot) CardView reviewRoot;
   private Result model;
 
   public static DetailFragment newInstance(Result model) {
@@ -57,21 +69,64 @@ public class DetailFragment extends Fragment {
         new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
     castRecycler.setLayoutManager(
         new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+    reviewRecycler.setAdapter(new ReviewAdapter(getActivity(),
+        new ArrayList<me.droan.movi.detail.review.model.Result>()));
     reviewRecycler.setLayoutManager(new UnscrollableLinearLayoutManager(getActivity()));
-    tralerRecycler.setAdapter(new TrailerAdapter(getActivity()));
+    //tralerRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
     castRecycler.setAdapter(new CastAdapter(getActivity()));
-    reviewRecycler.setAdapter(new ReviewAdapter(getActivity()));
+    handleReviewService();
+    handleTrailerService();
     title.setText(model.title);
     poster.setImageURI(Uri.parse(Constants.POSTER_BASE + model.poster_path));
     backdrop.setImageURI(Uri.parse(Constants.POSTER_BASE + model.backdrop_path));
     rating.setProgress((int) model.vote_average);
     release.setText(model.release_date);
-    //description.setText(model.overview
-    //    + model.overview
-    //    + model.overview
-    //    + model.overview);
+    description.setText(model.overview);
 
     return view;
+  }
+
+  private void handleReviewService() {
+    Retrofit retrofit = RetrofitHelper.getRetrofitObj();
+    MoviServices service = retrofit.create(MoviServices.class);
+    Call<ReviewModel> call = service.getReviews(model.id);
+    call.enqueue(new Callback<ReviewModel>() {
+      @Override public void onResponse(Call<ReviewModel> call, Response<ReviewModel> response) {
+        if (response.isSuccessful()) {
+          ReviewModel model = response.body();
+          if (model.results.size() > 0) {
+            reviewRoot.setVisibility(View.VISIBLE);
+            reviewRecycler.setAdapter(new ReviewAdapter(getActivity(), model.results));
+          }
+        }
+      }
+
+      @Override public void onFailure(Call<ReviewModel> call, Throwable t) {
+
+      }
+    });
+
+  }
+
+  private void handleTrailerService() {
+    Retrofit retrofit = RetrofitHelper.getRetrofitObj();
+    MoviServices service = retrofit.create(MoviServices.class);
+    Call<VideoModel> call = service.getVideos(model.id);
+    call.enqueue(new Callback<VideoModel>() {
+      @Override public void onResponse(Call<VideoModel> call, Response<VideoModel> response) {
+        if (response.isSuccessful()) {
+          VideoModel model = response.body();
+          if (model.results.size() > 0) {
+            reviewRoot.setVisibility(View.VISIBLE);
+            reviewRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
+          }
+        }
+      }
+
+      @Override public void onFailure(Call<VideoModel> call, Throwable t) {
+
+      }
+    });
   }
 
   private static class UnscrollableLinearLayoutManager extends LinearLayoutManager {
