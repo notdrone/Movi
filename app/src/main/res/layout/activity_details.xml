@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_pink_300"
+    android:fitsSystemWindows="false"
     android:orientation="vertical"
     tools:context=".detail.DetailsActivity"
     >
@@ -14,6 +16,7 @@
       android:id="@+id/fragmentContainer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:fitsSystemWindows="false"
       ></FrameLayout>
   <android.support.v7.widget.Toolbar
       android:id="@+id/toolbar"

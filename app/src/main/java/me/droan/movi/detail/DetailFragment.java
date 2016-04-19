@@ -25,6 +25,8 @@ public class DetailFragment extends Fragment {
   @Bind(R.id.poster) SimpleDraweeView poster;
   @Bind(R.id.backdrop) SimpleDraweeView backdrop;
   @Bind(R.id.rating) RatingBar rating;
+  @Bind(R.id.description) TextView description;
+  @Bind(R.id.release) TextView release;
   private Result model;
 
   public static DetailFragment newInstance(Result model) {
@@ -47,9 +49,18 @@ public class DetailFragment extends Fragment {
     ButterKnife.bind(this, view);
     title.setText(model.title);
     poster.setImageURI(Uri.parse(Constants.POSTER_BASE + model.poster_path));
-    Log.e("*******************", Uri.parse(Constants.POSTER_BASE + model.poster_path).toString());
     backdrop.setImageURI(Uri.parse(Constants.POSTER_BASE + model.backdrop_path));
     rating.setProgress((int) model.vote_average);
+    release.setText(model.release_date);
+    description.setText(model.overview
+        + model.overview
+        + model.overview
+        + model.overview
+        + model.overview
+        + model.overview
+        + model.overview
+        + model.overview
+        + model.overview);
     return view;
   }
 }
