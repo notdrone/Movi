@@ -31,6 +31,7 @@ dependencies {
   compile "com.android.support:design:${supportLibVersion}"
   compile "com.android.support:customtabs:${supportLibVersion}"
   compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+  compile "com.android.support:palette-v7:${supportLibVersion}"
 
   compile "com.squareup.okhttp3:logging-interceptor:3.0.1"
   compile "com.squareup.okhttp3:okhttp:3.1.2"

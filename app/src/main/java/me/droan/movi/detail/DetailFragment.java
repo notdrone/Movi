@@ -2,10 +2,12 @@ package me.droan.movi.detail;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +15,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import java.util.ArrayList;
 import me.droan.movi.MoviServices;
 import me.droan.movi.MovieListModel.Result;
@@ -47,8 +59,12 @@ public class DetailFragment extends Fragment {
   @Bind(R.id.castRecycler) RecyclerView castRecycler;
   @Bind(R.id.reviewRecycler) RecyclerView reviewRecycler;
   @Bind(R.id.trailerRecycler) RecyclerView tralerRecycler;
-  @Bind(R.id.reviewRoot) CardView reviewRoot;
+  @Bind(R.id.cardReview) CardView cardReview;
+  @Bind(R.id.cardCast) CardView cardCast;
+  @Bind(R.id.cardOverview) CardView cardOverview;
+  @Bind(R.id.cardTrailer) CardView cardTrailer;
   @Bind(R.id.favorite) Button favorite;
+  @Bind(R.id.parent_layout) LinearLayout root;
   private Result model;
 
   public static DetailFragment newInstance(Result model) {
@@ -81,11 +97,20 @@ public class DetailFragment extends Fragment {
     handleReviewService();
     //handleTrailerService();
     title.setText(model.title);
-    poster.setImageURI(Uri.parse(Constants.POSTER_BASE + model.poster_path));
+    Uri posterUri = Uri.parse(Constants.POSTER_BASE + model.poster_path);
+    poster.setImageURI(posterUri);
     backdrop.setImageURI(Uri.parse(Constants.POSTER_BASE + model.backdrop_path));
     rating.setProgress((int) model.vote_average);
     release.setText(model.release_date);
     description.setText(model.overview);
+
+    ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(posterUri).build();
+    DraweeController controller = Fresco.newDraweeControllerBuilder()
+        .setImageRequest(imageRequest)
+        .setOldController(poster.getController())
+        .build();
+    processImageWithPaletteApi(imageRequest, controller);
+
     favorite.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         insertData();
@@ -94,6 +119,36 @@ public class DetailFragment extends Fragment {
 
     return view;
   }
+
+  private void processImageWithPaletteApi(ImageRequest request, DraweeController controller) {
+    DataSource<CloseableReference<CloseableImage>> dataSource =
+        Fresco.getImagePipeline().fetchDecodedImage(request, poster.getContext());
+    dataSource.subscribe(new BaseBitmapDataSubscriber() {
+      @Override
+      protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+        getActivity().getWindow()
+            .getDecorView()
+            .setBackgroundColor(getResources().getColor(R.color.md_white_1000));
+      }
+
+      @Override protected void onNewResultImpl(@Nullable Bitmap bitmap) {
+        Palette.from(bitmap).maximumColorCount(50).generate(new Palette.PaletteAsyncListener() {
+          @Override public void onGenerated(Palette palette) {
+            getActivity().getWindow()
+                .getDecorView()
+                .setBackgroundColor(palette.getMutedColor(0x000000));
+            cardCast.setCardBackgroundColor(palette.getDarkMutedColor(0));
+            cardOverview.setCardBackgroundColor(palette.getDarkMutedColor(0));
+            cardTrailer.setCardBackgroundColor(palette.getDarkMutedColor(0));
+            cardReview.setCardBackgroundColor(palette.getDarkMutedColor(0));
+          }
+        });
+      }
+    }, CallerThreadExecutor.getInstance());
+
+    poster.setController(controller);
+  }
+
 
   public void insertData() {
     ContentValues value = new ContentValues();
@@ -121,7 +176,7 @@ public class DetailFragment extends Fragment {
         if (response.isSuccessful()) {
           ReviewModel model = response.body();
           if (model.results.size() > 0) {
-            reviewRoot.setVisibility(View.VISIBLE);
+            cardReview.setVisibility(View.VISIBLE);
             reviewRecycler.setAdapter(new ReviewAdapter(getActivity(), model.results));
           }
         }
@@ -143,7 +198,7 @@ public class DetailFragment extends Fragment {
         if (response.isSuccessful()) {
           VideoModel model = response.body();
           if (model.results.size() > 0) {
-            reviewRoot.setVisibility(View.VISIBLE);
+            cardReview.setVisibility(View.VISIBLE);
             reviewRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
           }
         }

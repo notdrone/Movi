@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.List;
@@ -37,7 +36,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Holder> {
   }
 
   @Override public int getItemCount() {
-    Toast.makeText(context, "" + list.size(), Toast.LENGTH_SHORT).show();
     return list.size();
   }
 

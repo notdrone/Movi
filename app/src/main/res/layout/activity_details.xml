@@ -5,24 +5,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_pink_300"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
     tools:context=".detail.DetailsActivity"
     >
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+      <android.support.v4.widget.Space
 
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          />
   <FrameLayout
       android:id="@+id/fragmentContainer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:fitsSystemWindows="false"
       ></FrameLayout>
+    </LinearLayout>
+  </ScrollView>
+
   <android.support.v7.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
+      android:layout_height="wrap_content"
       android:background="@android:color/transparent"
-      app:navigationIcon="@android:drawable/arrow_up_float"
+      android:fitsSystemWindows="true"
+      app:navigationContentDescription="back"
+      app:navigationIcon="@drawable/ic_arrow_back_24dp"
       ></android.support.v7.widget.Toolbar>
 </FrameLayout>

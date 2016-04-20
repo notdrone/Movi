@@ -21,6 +21,7 @@
     </activity>
     <activity
         android:name=".detail.DetailsActivity"
+        android:parentActivityName=".MoviActivity"
         android:theme="@style/detailTheme">
     </activity>
 
