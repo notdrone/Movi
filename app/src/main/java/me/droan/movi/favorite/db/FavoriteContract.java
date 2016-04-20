@@ -18,12 +18,12 @@ public class FavoriteContract {
 
     public static final String TABLE_NAME = "favorite";
     public static final String ID = "_id";
-    public static final String TITLE = "title";
-    public static final String RATING = "rating";
-    public static final String POSTER = "poster";
-    public static final String BACKDROP = "backdrop";
-    public static final String OVERVIEW = "overview";
-    public static final String RELEASE = "release";
+    public static final String COL_TITLE = "title";
+    public static final String COL_RATING = "rating";
+    public static final String COL_POSTER = "poster";
+    public static final String COL_BACKDROP = "backdrop";
+    public static final String COL_OVERVIEW = "overview";
+    public static final String COL_RELEASE = "release";
 
     public static final Uri CONTENT_URI =
         BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).build();
