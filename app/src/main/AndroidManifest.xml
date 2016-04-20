@@ -23,6 +23,10 @@
         android:name=".detail.DetailsActivity"
         android:theme="@style/detailTheme">
     </activity>
+
+    <provider
+        android:name=".favorite.db.FavoriteProvider"
+        android:authorities="me.droan.movi"/>
   </application>
 
 </manifest>

@@ -13,7 +13,7 @@ public class FavoriteDbHelper extends SQLiteOpenHelper {
   private static final int DATABASE_VERSION = 1;
   private String SQL_CREATE_FLAVOR_TABLE =
       "CREATE TABLE " + FavoriteContract.FavoriteTable.TABLE_NAME + " ( " +
-          " " + FavoriteContract.FavoriteTable._ID + " INTEGER  PRIMARY KEY AUTOINCREMENT," +
+          " " + FavoriteContract.FavoriteTable._ID + " INTEGER  PRIMARY KEY," +
           " " + FavoriteContract.FavoriteTable.COL_TITLE + " TEXT NOT NULL," +
           " " + FavoriteContract.FavoriteTable.COL_RATING + " TEXT NOT NULL," +
           " " + FavoriteContract.FavoriteTable.COL_RELEASE + " TEXT NOT NULL," +

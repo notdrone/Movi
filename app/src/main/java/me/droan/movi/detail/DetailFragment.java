@@ -1,5 +1,6 @@
 package me.droan.movi.detail;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -24,6 +26,7 @@ import me.droan.movi.detail.review.ReviewAdapter;
 import me.droan.movi.detail.review.model.ReviewModel;
 import me.droan.movi.detail.video.TrailerAdapter;
 import me.droan.movi.detail.video.model.VideoModel;
+import me.droan.movi.favorite.db.FavoriteContract;
 import me.droan.movi.utils.Constants;
 import me.droan.movi.utils.RetrofitHelper;
 import retrofit2.Call;
@@ -45,6 +48,7 @@ public class DetailFragment extends Fragment {
   @Bind(R.id.reviewRecycler) RecyclerView reviewRecycler;
   @Bind(R.id.trailerRecycler) RecyclerView tralerRecycler;
   @Bind(R.id.reviewRoot) CardView reviewRoot;
+  @Bind(R.id.favorite) Button favorite;
   private Result model;
 
   public static DetailFragment newInstance(Result model) {
@@ -82,8 +86,30 @@ public class DetailFragment extends Fragment {
     rating.setProgress((int) model.vote_average);
     release.setText(model.release_date);
     description.setText(model.overview);
+    favorite.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        insertData();
+      }
+    });
 
     return view;
+  }
+
+  public void insertData() {
+    ContentValues value = new ContentValues();
+    // Loop through static array of Flavors, add each to an instance of ContentValues
+    // in the array of ContentValues
+
+    value.put(FavoriteContract.FavoriteTable.COL_TITLE, model.title);
+    value.put(FavoriteContract.FavoriteTable._ID, model.id);
+    value.put(FavoriteContract.FavoriteTable.COL_BACKDROP, model.backdrop_path);
+    value.put(FavoriteContract.FavoriteTable.COL_POSTER, model.poster_path);
+    value.put(FavoriteContract.FavoriteTable.COL_OVERVIEW, model.overview);
+    value.put(FavoriteContract.FavoriteTable.COL_RATING, model.vote_average);
+    value.put(FavoriteContract.FavoriteTable.COL_RELEASE, model.release_date);
+
+    // bulkInsert our ContentValues array
+    getActivity().getContentResolver().insert(FavoriteContract.FavoriteTable.CONTENT_URI, value);
   }
 
   private void handleReviewService() {
