@@ -1,26 +1,30 @@
 package me.droan.movi.favorite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import me.droan.movi.R;
+import me.droan.movi.utils.CursorRecyclerViewAdapter;
 
 /**
  * Created by drone on 15/04/16.
  */
-public class FavoriteAdapter extends RecyclerView.Adapter {
+public class FavoriteAdapter extends CursorRecyclerViewAdapter<FavoriteAdapter.Holder> {
   private static final int VIEW_FOOTER = 314;
   private static final int VIEW_FIRST = 442;
   private static final int VIEW_OTHER = 433;
   private Context context;
 
-  public FavoriteAdapter(Context context) {
+  public FavoriteAdapter(Context context, Cursor cursor) {
+    super(context, cursor);
     this.context = context;
   }
 
-  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
     LayoutInflater inflater = LayoutInflater.from(context);
     if (viewType == VIEW_FIRST) {
       return new Holder(inflater.inflate(R.layout.recycler_first_item, parent, false));
@@ -31,12 +35,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter {
     }
   }
 
-  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-  }
-
-  @Override public int getItemCount() {
-    return 100;
+  @Override public void onBindViewHolder(Holder viewHolder, Cursor cursor) {
+    Toast.makeText(context, "" + cursor.getCount(), Toast.LENGTH_SHORT).show();
   }
 
   @Override public int getItemViewType(int position) {
