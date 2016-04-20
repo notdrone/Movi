@@ -75,7 +75,7 @@ public class DetailFragment extends Fragment {
     //tralerRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
     castRecycler.setAdapter(new CastAdapter(getActivity()));
     handleReviewService();
-    handleTrailerService();
+    //handleTrailerService();
     title.setText(model.title);
     poster.setImageURI(Uri.parse(Constants.POSTER_BASE + model.poster_path));
     backdrop.setImageURI(Uri.parse(Constants.POSTER_BASE + model.backdrop_path));
