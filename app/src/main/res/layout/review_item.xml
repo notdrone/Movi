@@ -9,11 +9,20 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:paddingLeft="16dp"
+      android:textColor="@color/md_white_1000"
+      android:textStyle="bold"
       />
   <TextView
       android:id="@+id/review"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:padding="16dp"
+      android:textColor="@color/md_white_1000"
+      />
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:alpha="0.5"
+      android:background="#FFFFFF"
       />
 </LinearLayout>

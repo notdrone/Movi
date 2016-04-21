@@ -126,10 +126,10 @@
 
           <TextView
               android:layout_width="wrap_content"
-              android:layout_height="28dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
               android:gravity="center_vertical"
               android:paddingEnd="8dp"
-              android:paddingStart="64dp"
               android:text="Overview"
               android:textColor="#fff"
               android:textSize="16sp"
@@ -232,10 +232,10 @@
 
           <TextView
               android:layout_width="wrap_content"
-              android:layout_height="28dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
               android:gravity="center_vertical"
               android:paddingEnd="8dp"
-              android:paddingStart="64dp"
               android:text="Reviews"
               android:textColor="#fff"
               android:textSize="16sp"
