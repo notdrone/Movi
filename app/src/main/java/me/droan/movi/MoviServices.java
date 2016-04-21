@@ -1,6 +1,7 @@
 package me.droan.movi;
 
 import me.droan.movi.MovieListModel.MovieList;
+import me.droan.movi.detail.cast.model.CastModel;
 import me.droan.movi.detail.review.model.ReviewModel;
 import me.droan.movi.detail.video.model.VideoModel;
 import me.droan.movi.utils.Constants;
@@ -23,4 +24,6 @@ public interface MoviServices {
 
   @GET("{id}/videos?api_key=" + Constants.API_KEY) Call<VideoModel> getVideos(
       @Path("id") int id);
+
+  @GET("{id}/credits?api_key=" + Constants.API_KEY) Call<CastModel> getCast(@Path("id") int id);
 }

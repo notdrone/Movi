@@ -19,4 +19,11 @@
     <style name="detailTheme" parent="AppTheme">
     </style>
 
+  <style name="h_line">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">1dp</item>
+    <item name="android:alpha">0.3</item>
+    <item name="android:background">@color/md_white_1000</item>
+  </style>
+
 </resources>

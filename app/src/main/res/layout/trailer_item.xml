@@ -11,9 +11,12 @@
       android:layout_margin="12dp"
       >
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="166dp"
-        android:layout_height="100dp"
-        app:placeholderImage="@color/md_blue_300"
+        android:id="@+id/videoThumb"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:placeholderImage="@color/md_grey_200"
+        app:viewAspectRatio="1.9"
         />
     <ImageView
         android:layout_width="wrap_content"

@@ -6,10 +6,11 @@
     android:layout_margin="12dp"
     android:orientation="vertical"
     >
-  <com.facebook.drawee.view.GenericDraweeView
-      android:layout_width="40dp"
-      android:layout_height="40dp"
-      app:placeholderImage="@color/md_yellow_500"
+  <com.facebook.drawee.view.SimpleDraweeView
+      android:id="@+id/castProfile"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      app:placeholderImage="@color/md_grey_200"
       app:roundAsCircle="true"
       app:roundedCornerRadius="120dp"
       />

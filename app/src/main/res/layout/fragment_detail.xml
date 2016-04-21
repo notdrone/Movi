@@ -5,6 +5,7 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     >
   <android.support.v4.widget.NestedScrollView
@@ -39,7 +40,6 @@
               android:id="@+id/backdrop"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/md_yellow_500"
               app:overlayImage="@drawable/overlay_whitish"
               />
           <LinearLayout
@@ -114,14 +114,14 @@
           android:id="@+id/cardOverview"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          app:cardBackgroundColor="@color/md_red_300"
+          android:visibility="gone"
+          app:cardBackgroundColor="@color/card_background"
           app:cardUseCompatPadding="true"
           >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
             >
 
           <TextView
@@ -129,11 +129,13 @@
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:gravity="center_vertical"
-              android:paddingEnd="8dp"
+              android:padding="12dp"
               android:text="Overview"
               android:textColor="#fff"
               android:textSize="16sp"
               />
+          <View
+              style="@style/h_line"/>
 
           <TextView
               android:id="@+id/description"
@@ -150,7 +152,8 @@
           android:id="@+id/cardTrailer"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          app:cardBackgroundColor="@color/md_red_300"
+          android:visibility="gone"
+          app:cardBackgroundColor="@color/card_background"
           app:cardUseCompatPadding="true"
           >
 
@@ -158,19 +161,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
             >
 
           <TextView
               android:layout_width="wrap_content"
-              android:layout_height="28dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
               android:gravity="center_vertical"
-              android:paddingEnd="8dp"
-              android:paddingStart="64dp"
+              android:padding="12dp"
               android:text="Trailers"
               android:textColor="#fff"
               android:textSize="16sp"
               />
+          <View
+              style="@style/h_line"/>
 
           <android.support.v7.widget.RecyclerView
               android:id="@+id/trailerRecycler"
@@ -184,7 +188,8 @@
           android:id="@+id/cardCast"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          app:cardBackgroundColor="@color/md_red_300"
+          android:visibility="gone"
+          app:cardBackgroundColor="@color/card_background"
           app:cardUseCompatPadding="true"
           >
 
@@ -192,19 +197,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
             >
 
           <TextView
               android:layout_width="wrap_content"
-              android:layout_height="28dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
               android:gravity="center_vertical"
-              android:paddingEnd="8dp"
-              android:paddingStart="64dp"
+              android:padding="12dp"
               android:text="Casts"
               android:textColor="#fff"
               android:textSize="16sp"
               />
+          <View
+              style="@style/h_line"/>
 
           <android.support.v7.widget.RecyclerView
               android:id="@+id/castRecycler"
@@ -219,7 +225,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:visibility="gone"
-          app:cardBackgroundColor="@color/md_red_300"
+          app:cardBackgroundColor="@color/card_background"
           app:cardUseCompatPadding="true"
           >
 
@@ -227,7 +233,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
             >
 
           <TextView
@@ -235,7 +240,7 @@
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:gravity="center_vertical"
-              android:paddingEnd="8dp"
+              android:padding="12dp"
               android:text="Reviews"
               android:textColor="#fff"
               android:textSize="16sp"
