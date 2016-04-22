@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 import java.util.ArrayList;
 import me.droan.movi.MoviFragment;
 import me.droan.movi.MoviServices;
@@ -18,14 +17,20 @@ import retrofit2.Response;
 /**
  * Created by drone on 15/04/16.
  */
-public class PopularFragment extends MoviFragment {
-  private static final String TAG = "PopularFragment";
+public class GenericFragment extends MoviFragment {
+  public static final int FROM_POPULAR = 1;
+  public static final int FROM_UPCOMING = 2;
+  public static final int FROM_TOP = 3;
+  private static final String TAG = "GenericFragment";
+  private static final String KEY_FROM = "popularfragment.from";
   ArrayList<Result> list = new ArrayList<>();
   private MoviServices services;
+  private int from;
 
-  public static PopularFragment newInstance() {
+  public static GenericFragment newInstance(int from) {
     Bundle args = new Bundle();
-    PopularFragment fragment = new PopularFragment();
+    args.putInt(KEY_FROM, from);
+    GenericFragment fragment = new GenericFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -38,7 +43,8 @@ public class PopularFragment extends MoviFragment {
 
   private void serviceHandler() {
     Call<MovieList> call;
-    call = services.getPopularMovies();
+
+    call = getMoviesReuest();
 
     call.enqueue(new Callback<MovieList>() {
       @Override public void onResponse(Call<MovieList> call, Response<MovieList> response) {
@@ -46,8 +52,8 @@ public class PopularFragment extends MoviFragment {
             "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list,
-            new PoUpToAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(
+            new GenericAdapter(getActivity(), from, list, new GenericAdapter.OnItemClickListener() {
               @Override public void onItemClick(Result model) {
                 ((OpenDetailListener) getActivity()).openDetail(model);
               }
@@ -60,6 +66,18 @@ public class PopularFragment extends MoviFragment {
     });
   }
 
+  private Call<MovieList> getMoviesReuest() {
+    if (from == FROM_POPULAR) {
+      return services.getPopularMovies();
+    } else if (from == FROM_TOP) {
+      return services.getTopRatedMovies();
+    } else if (from == FROM_UPCOMING) {
+      return services.getUpcomingRatedMovies();
+    } else {
+      throw new IllegalStateException("FROM mismatch");
+    }
+  }
+
   @Override public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable("Key", list);
@@ -67,23 +85,31 @@ public class PopularFragment extends MoviFragment {
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-      initRetrofit();
+    from = getArguments().getInt(KEY_FROM);
+    initRetrofit();
   }
 
   @Override public void initViews() {
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new PoUpToAdapter(getActivity(), PoUpToAdapter.FROM_POPULAR, list,
-        new PoUpToAdapter.OnItemClickListener() {
-          @Override public void onItemClick(Result model) {
-            ((OpenDetailListener) getActivity()).openDetail(model);
-          }
-        });
+    return new GenericAdapter(getActivity(), from, list, new GenericAdapter.OnItemClickListener() {
+      @Override public void onItemClick(Result model) {
+        ((OpenDetailListener) getActivity()).openDetail(model);
+      }
+    });
   }
 
   @Override public int getFancyGridType() {
-    return WITH_HEADER_FANCY_TYPE;
+    if (from == FROM_POPULAR) {
+      return WITH_HEADER_FANCY_TYPE;
+    } else if (from == FROM_TOP) {
+      return SIMPLE_FANCY_TYPE;
+    } else if (from == FROM_UPCOMING) {
+      return SIMPLE_FANCY_TYPE;
+    } else {
+      throw new IllegalStateException("FROM mismatch");
+    }
   }
 }
 

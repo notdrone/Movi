@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -17,9 +16,7 @@ import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.detail.DetailFragment;
 import me.droan.movi.detail.DetailsActivity;
 import me.droan.movi.favorite.FavouriteFragment;
-import me.droan.movi.popular.PopularFragment;
-import me.droan.movi.upcomingTop.TopFragment;
-import me.droan.movi.upcomingTop.UpcomingFragment;
+import me.droan.movi.popular.GenericFragment;
 
 public class MoviActivity extends AppCompatActivity implements MoviFragment.OpenDetailListener {
 
@@ -58,9 +55,9 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
 
   private void initViewPager() {
     Adapter adapter = new Adapter(getSupportFragmentManager());
-    adapter.addFragment(PopularFragment.newInstance());
-    adapter.addFragment(UpcomingFragment.newInstance());
-    adapter.addFragment(TopFragment.newInstance());
+    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_POPULAR));
+    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_UPCOMING));
+    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_TOP));
     adapter.addFragment(FavouriteFragment.newInstance());
     viewPager.setAdapter(adapter);
   }

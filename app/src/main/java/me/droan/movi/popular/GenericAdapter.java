@@ -14,10 +14,7 @@ import me.droan.movi.view.SimpleLayoutItem;
 /**
  * Created by drone on 15/04/16.
  */
-public class PoUpToAdapter extends RecyclerView.Adapter {
-  public static final int FROM_POPULAR = 994;
-  public static final int FROM_UPCOMING = 341;
-  public static final int FROM_TOP = 845;
+public class GenericAdapter extends RecyclerView.Adapter {
   private static final int VIEW_FOOTER = 314;
   private static final int VIEW_FIRST = 442;
   private static final int VIEW_OTHER = 433;
@@ -26,7 +23,7 @@ public class PoUpToAdapter extends RecyclerView.Adapter {
   private OnItemClickListener listener;
   private int FROM;
 
-  public PoUpToAdapter(Context context, int FROM, ArrayList<Result> list,
+  public GenericAdapter(Context context, int FROM, ArrayList<Result> list,
       OnItemClickListener listener) {
     this.context = context;
     this.list = list;
@@ -51,7 +48,7 @@ public class PoUpToAdapter extends RecyclerView.Adapter {
   }
 
   @Override public void onBindViewHolder(RecyclerView.ViewHolder _holder, int position) {
-    if (position == 0 && FROM_POPULAR == FROM) {
+    if (position == 0 && GenericFragment.FROM_POPULAR == FROM) {
       Holder1 holder = (Holder1) _holder;
       holder.bindTo(list.get(position), listener);
     } else {
@@ -65,7 +62,7 @@ public class PoUpToAdapter extends RecyclerView.Adapter {
   }
 
   @Override public int getItemViewType(int position) {
-    if (position == 0 && FROM == FROM_POPULAR) {
+    if (position == 0 && FROM == GenericFragment.FROM_POPULAR) {
       return VIEW_FIRST;
     } else {
       return VIEW_OTHER;
