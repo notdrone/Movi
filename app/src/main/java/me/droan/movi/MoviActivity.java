@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
     } else {
       tabMode = true;
     }
+    Toast.makeText(MoviActivity.this, "" + tabMode, Toast.LENGTH_SHORT).show();
   }
 
   private void initTabIcons() {
