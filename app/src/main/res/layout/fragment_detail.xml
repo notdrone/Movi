@@ -56,6 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:ellipsize="marquee"
+                android:maxLines="2"
                 tools:text="Captain America: Civil War"
                 style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
                 />
@@ -63,6 +65,7 @@
                 android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:progressTint="@color/accent"
                 android:rating="3.5"
                 style="?android:attr/ratingBarStyleSmall"
@@ -72,6 +75,7 @@
                 android:id="@+id/release"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 tools:text="Action, Adventure"
                 style="@style/genreText"
                 />

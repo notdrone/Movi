@@ -2,6 +2,7 @@ package me.droan.movi.popular;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class GenericFragment extends MoviFragment {
   ArrayList<Result> list = new ArrayList<>();
   private MoviServices services;
   private int from;
+  private int page = 1;
+  private boolean serviceCalled = false;
+  private GenericAdapter adapter;
 
   public static GenericFragment newInstance(int from) {
     Bundle args = new Bundle();
@@ -48,14 +52,11 @@ public class GenericFragment extends MoviFragment {
 
     call.enqueue(new Callback<MovieList>() {
       @Override public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+        serviceCalled = false;
         MovieList movieList = response.body();
-        list = (ArrayList<Result>) movieList.results;
-        recyclerView.setAdapter(
-            new GenericAdapter(getActivity(), from, list, new GenericAdapter.OnItemClickListener() {
-              @Override public void onItemClick(Result model) {
-                ((OpenDetailListener) getActivity()).openDetail(model);
-              }
-            }));
+        list.addAll((ArrayList<Result>) movieList.results);
+        adapter.refresh(list);
+        incrementPager();
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {
@@ -64,13 +65,18 @@ public class GenericFragment extends MoviFragment {
     });
   }
 
+  private void incrementPager() {
+    page++;
+  }
+
   private Call<MovieList> getMoviesReuest() {
+    serviceCalled = true;
     if (from == FROM_POPULAR) {
-      return services.getPopularMovies();
+      return services.getPopularMovies(page);
     } else if (from == FROM_TOP) {
-      return services.getTopRatedMovies();
+      return services.getTopRatedMovies(page);
     } else if (from == FROM_UPCOMING) {
-      return services.getUpcomingRatedMovies();
+      return services.getUpcomingRatedMovies(page);
     } else {
       throw new IllegalStateException("FROM mismatch");
     }
@@ -88,14 +94,26 @@ public class GenericFragment extends MoviFragment {
   }
 
   @Override public void initViews() {
+    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        final int latVisiblePos =
+            ((GridLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        if (latVisiblePos > list.size() - 8 && !serviceCalled) {
+          serviceHandler();
+        }
+      }
+    });
   }
 
   @Override public RecyclerView.Adapter getAdapter() {
-    return new GenericAdapter(getActivity(), from, list, new GenericAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Result model) {
-        ((OpenDetailListener) getActivity()).openDetail(model);
-      }
-    });
+    adapter = new GenericAdapter(getActivity(), getArguments().getInt(KEY_FROM), list,
+        new GenericAdapter.OnItemClickListener() {
+          @Override public void onItemClick(Result model) {
+            ((OpenDetailListener) getActivity()).openDetail(model);
+          }
+        });
+    return adapter;
   }
 
   @Override public int getFancyGridType() {

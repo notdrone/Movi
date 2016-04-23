@@ -69,6 +69,11 @@ public class GenericAdapter extends RecyclerView.Adapter {
     }
   }
 
+  public void refresh(ArrayList<Result> list) {
+    this.list = list;
+    notifyDataSetChanged();
+  }
+
   public interface OnItemClickListener {
     public void onItemClick(Result model);
   }
