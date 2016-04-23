@@ -48,8 +48,6 @@ public class GenericFragment extends MoviFragment {
 
     call.enqueue(new Callback<MovieList>() {
       @Override public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-        Log.d(TAG,
-            "onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
         MovieList movieList = response.body();
         list = (ArrayList<Result>) movieList.results;
         recyclerView.setAdapter(

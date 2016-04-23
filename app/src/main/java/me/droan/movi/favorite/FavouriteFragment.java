@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.droan.movi.MoviFragment;
+import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
 import me.droan.movi.favorite.db.FavoriteContract;
 
@@ -35,16 +37,10 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
-    cursor = getActivity().getContentResolver()
-        .query(FavoriteContract.FavoriteTable.CONTENT_URI,
-            new String[] { FavoriteContract.FavoriteTable._ID }, null, null, null);
-    cAdapter = new FavoriteAdapter(getContext(), cursor);
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
   }
 
   @Nullable @Override
@@ -52,10 +48,24 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.simple_recycler_view, container, false);
     ButterKnife.bind(this, view);
+
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+    return view;
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
+    cursor = getActivity().getContentResolver()
+        .query(FavoriteContract.FavoriteTable.CONTENT_URI, null, null, null, null);
+    cAdapter = new FavoriteAdapter(getContext(), cursor, new FavoriteAdapter.OnItemClickListener() {
+      @Override public void onItemClick(Result model) {
+        ((MoviFragment.OpenDetailListener) getActivity()).openDetail(model);
+      }
+    });
     recyclerView.setAdapter(cAdapter);
     cAdapter.notifyDataSetChanged();
-    return view;
   }
 
   @Override public Loader<Cursor> onCreateLoader(int id, Bundle args) {
