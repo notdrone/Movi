@@ -1,29 +1,36 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+  </style>
 
-    <style name="MoviTheme" parent="AppTheme">
-    </style>
+  <style name="MoviTheme" parent="AppTheme">
+  </style>
 
-    <style name="genreText">
-        <item name="android:textSize">10dp</item>
-        <item name="android:singleLine">true</item>
-    </style>
+  <style name="genreText">
+    <item name="android:textSize">10dp</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:textColor">@color/md_grey_900</item>
+  </style>
 
-    <style name="detailTheme" parent="AppTheme">
-    </style>
+  <style name="detailTheme" parent="AppTheme">
+  </style>
 
   <style name="h_line">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">1dp</item>
     <item name="android:alpha">0.3</item>
     <item name="android:background">@color/md_white_1000</item>
+  </style>
+
+  <style name="paraText">
+    <item name="android:lineSpacingMultiplier">1.3</item>
+    <item name="android:textColor">@color/md_white_1000</item>
+    <item name="android:textSize">14dp</item>
   </style>
 
 </resources>

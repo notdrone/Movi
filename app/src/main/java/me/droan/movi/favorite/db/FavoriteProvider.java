@@ -110,18 +110,12 @@ public class FavoriteProvider extends ContentProvider {
     switch (match) {
       case FAVORITE:
         numDeleted = db.delete(FavoriteContract.FavoriteTable.TABLE_NAME, selection, selectionArgs);
-        // reset _ID
-        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-            FavoriteContract.FavoriteTable.TABLE_NAME + "'");
+
         break;
       case FAAVORITE_WITH_ID:
         numDeleted = db.delete(FavoriteContract.FavoriteTable.TABLE_NAME,
             FavoriteContract.FavoriteTable._ID + " = ?",
             new String[] { String.valueOf(ContentUris.parseId(uri)) });
-        // reset _ID
-        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +
-            FavoriteContract.FavoriteTable.TABLE_NAME + "'");
-
         break;
       default:
         throw new UnsupportedOperationException("Unknown uri: " + uri);

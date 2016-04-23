@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import com.facebook.drawee.view.SimpleDraweeView;
 import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
+import me.droan.movi.utils.Constants;
 import me.droan.movi.utils.GenreHelper;
 
 /**
@@ -41,6 +42,6 @@ public class SimpleLayoutItem extends FrameLayout {
   public void onBind(Result model) {
     genre.setText(GenreHelper.getAllGenre(model.genre_ids));
     rating.setProgress((int) model.vote_average);
-    poster.setImageURI(Uri.parse("http://image.tmdb.org/t/p/w342" + model.poster_path));
+    poster.setImageURI(Uri.parse(Constants.POSTER_BASE + model.poster_path));
   }
 }

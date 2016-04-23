@@ -1,6 +1,5 @@
 package me.droan.movi.detail;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -42,8 +41,8 @@ import me.droan.movi.detail.review.ReviewAdapter;
 import me.droan.movi.detail.review.model.ReviewModel;
 import me.droan.movi.detail.video.TrailerAdapter;
 import me.droan.movi.detail.video.model.VideoModel;
-import me.droan.movi.favorite.db.FavoriteContract;
 import me.droan.movi.utils.Constants;
+import me.droan.movi.utils.DbUtils;
 import me.droan.movi.utils.RetrofitHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -100,7 +99,7 @@ public class DetailFragment extends Fragment {
         new ArrayList<me.droan.movi.detail.review.model.Result>()));
     reviewRecycler.setLayoutManager(new UnscrollableLinearLayoutManager(getActivity()));
     //tralerRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
-
+    changeFav();
     handleReviewService();
     handleTrailerService();
     handleCastService();
@@ -121,12 +120,6 @@ public class DetailFragment extends Fragment {
         .setOldController(poster.getController())
         .build();
     processImageWithPaletteApi(imageRequest, controller);
-
-    favorite.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        insertData();
-      }
-    });
 
     return view;
   }
@@ -166,13 +159,16 @@ public class DetailFragment extends Fragment {
       @Override protected void onNewResultImpl(@Nullable Bitmap bitmap) {
         Palette.from(bitmap).maximumColorCount(50).generate(new Palette.PaletteAsyncListener() {
           @Override public void onGenerated(Palette palette) {
-            getActivity().getWindow()
-                .getDecorView()
-                .setBackgroundColor(palette.getMutedColor(0x000000));
-            cardCast.setCardBackgroundColor(palette.getMutedColor(0) + 1000);
-            cardOverview.setCardBackgroundColor(palette.getMutedColor(0) + 1000);
-            cardTrailer.setCardBackgroundColor(palette.getMutedColor(0) + 1000);
-            cardReview.setCardBackgroundColor(palette.getMutedColor(0) + 1000);
+            if (getActivity().getWindow() != null) {
+              getActivity().getWindow()
+                  .getDecorView()
+                  .setBackgroundColor(palette.getMutedColor(0x000000));
+            }
+            final int cardColor = palette.getMutedColor(0) + 1000;
+            cardCast.setCardBackgroundColor(cardColor);
+            cardOverview.setCardBackgroundColor(cardColor);
+            cardTrailer.setCardBackgroundColor(cardColor);
+            cardReview.setCardBackgroundColor(cardColor);
           }
         });
       }
@@ -181,22 +177,39 @@ public class DetailFragment extends Fragment {
     poster.setController(controller);
   }
 
+  public void addRemoveFav() {
+    if (isInDB()) {
+      DbUtils.removeFavorite(getActivity(), model.id);
+    } else {
 
-  public void insertData() {
-    ContentValues value = new ContentValues();
-    // Loop through static array of Flavors, add each to an instance of ContentValues
-    // in the array of ContentValues
+      DbUtils.insertFavorite(getActivity(), model);
+    }
 
-    value.put(FavoriteContract.FavoriteTable.COL_TITLE, model.title);
-    value.put(FavoriteContract.FavoriteTable._ID, model.id);
-    value.put(FavoriteContract.FavoriteTable.COL_BACKDROP, model.backdrop_path);
-    value.put(FavoriteContract.FavoriteTable.COL_POSTER, model.poster_path);
-    value.put(FavoriteContract.FavoriteTable.COL_OVERVIEW, model.overview);
-    value.put(FavoriteContract.FavoriteTable.COL_RATING, model.vote_average);
-    value.put(FavoriteContract.FavoriteTable.COL_RELEASE, model.release_date);
+    changeFav();
+  }
 
-    // bulkInsert our ContentValues array
-    getActivity().getContentResolver().insert(FavoriteContract.FavoriteTable.CONTENT_URI, value);
+  private void changeFav() {
+    favorite.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        addRemoveFav();
+      }
+    });
+    final int whiteColor = getContext().getResources().getColor(R.color.md_white_1000);
+    final int blackColor = getContext().getResources().getColor(R.color.md_black_1000);
+    final int accentColor = getContext().getResources().getColor(R.color.accent);
+    if (isInDB()) {
+      favorite.setBackgroundColor(accentColor);
+      favorite.setText("Unfavorite");
+      favorite.setTextColor(whiteColor);
+    } else {
+      favorite.setBackgroundColor(whiteColor);
+      favorite.setText("Favorite");
+      favorite.setTextColor(blackColor);
+    }
+  }
+
+  public boolean isInDB() {
+    return DbUtils.isInDB(getActivity(), model.id);
   }
 
   private void handleReviewService() {
@@ -218,7 +231,6 @@ public class DetailFragment extends Fragment {
 
       }
     });
-
   }
 
   private void handleTrailerService() {

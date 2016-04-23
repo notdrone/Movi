@@ -37,10 +37,13 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    initLoader();
+
   }
 
   @Nullable @Override
@@ -48,14 +51,18 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.simple_recycler_view, container, false);
     ButterKnife.bind(this, view);
-
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
     return view;
   }
 
   @Override public void onResume() {
     super.onResume();
+    initLoader();
+    recyclerView.setAdapter(cAdapter);
+    cAdapter.notifyDataSetChanged();
+  }
+
+  public void initLoader() {
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
     cursor = getActivity().getContentResolver()
         .query(FavoriteContract.FavoriteTable.CONTENT_URI, null, null, null, null);
@@ -64,8 +71,6 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
         ((MoviFragment.OpenDetailListener) getActivity()).openDetail(model);
       }
     });
-    recyclerView.setAdapter(cAdapter);
-    cAdapter.notifyDataSetChanged();
   }
 
   @Override public Loader<Cursor> onCreateLoader(int id, Bundle args) {
