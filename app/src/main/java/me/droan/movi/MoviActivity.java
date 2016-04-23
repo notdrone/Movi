@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
   @Bind(R.id.tabLayout) TabLayout tabLayout;
   @Bind(R.id.viewPager) ViewPager viewPager;
   private boolean tabMode;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_movi);
@@ -42,7 +42,6 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
     } else {
       tabMode = true;
     }
-    Toast.makeText(MoviActivity.this, "" + tabMode, Toast.LENGTH_SHORT).show();
   }
 
   private void initTabIcons() {
@@ -76,7 +75,6 @@ public class MoviActivity extends AppCompatActivity implements MoviFragment.Open
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragmentContainer, DetailFragment.newInstance(model))
           .commit();
-
     } else {
       Intent intent = DetailsActivity.putIntent(this, model);
       startActivity(intent);

@@ -52,14 +52,13 @@
           android:layout_marginTop="12dp"
           android:paddingBottom="14dp"
           >
-      <TextView
-          android:id="@+id/description"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-
-          android:textSize="12dp"
-          tools:text="As Steve Rogers struggles to embrace his role in the modern world, he teams up with a fellow Avenger and Shield agent, the Black Widow, to battle a new threat"
-          />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            tools:text="As Steve Rogers struggles to embrace his role in the modern world, he teams up with a fellow Avenger and Shield agent, the Black Widow, to battle a new threat"
+            />
         <View
             android:layout_width="match_parent"
             android:layout_height="16dp"
