@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
 import me.droan.movi.favorite.db.FavoriteContract;
-import me.droan.movi.popular.GenericFragment;
+import me.droan.movi.movies.MoviFragment;
 
 /**
  * Created by drone on 15/04/16.
@@ -68,7 +68,7 @@ public class FavouriteFragment extends Fragment implements LoaderManager.LoaderC
         .query(FavoriteContract.FavoriteTable.CONTENT_URI, null, null, null, null);
     cAdapter = new FavoriteAdapter(getContext(), cursor, new FavoriteAdapter.OnItemClickListener() {
       @Override public void onItemClick(Result model) {
-        ((GenericFragment.OpenDetailListener) getActivity()).openDetail(model);
+        ((MoviFragment.OpenDetailListener) getActivity()).openDetail(model);
       }
     });
   }

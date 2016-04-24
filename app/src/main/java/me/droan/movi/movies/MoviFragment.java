@@ -1,4 +1,4 @@
-package me.droan.movi.popular;
+package me.droan.movi.movies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +25,7 @@ import retrofit2.Response;
 /**
  * Created by drone on 15/04/16.
  */
-public class GenericFragment extends Fragment {
+public class MoviFragment extends Fragment {
 
   public static final int WITH_HEADER_FANCY_TYPE = 843;
   public static final int SIMPLE_FANCY_TYPE = 857;
@@ -33,7 +33,7 @@ public class GenericFragment extends Fragment {
   public static final int FROM_POPULAR = 1;
   public static final int FROM_UPCOMING = 2;
   public static final int FROM_TOP = 3;
-  private static final String TAG = "GenericFragment";
+  private static final String TAG = "MoviFragment";
   private static final String KEY_FROM = "popularfragment.from";
   private static final String EXTRA_LIST = "list";
   private static final String EXTRA_PAGE = "page";
@@ -44,12 +44,12 @@ public class GenericFragment extends Fragment {
   private int from;
   private int page = 1;
   private boolean serviceCalled = false;
-  private GenericAdapter adapter;
+  private MoviAdapter adapter;
 
-  public static GenericFragment newInstance(int from) {
+  public static MoviFragment newInstance(int from) {
     Bundle args = new Bundle();
     args.putInt(KEY_FROM, from);
-    GenericFragment fragment = new GenericFragment();
+    MoviFragment fragment = new MoviFragment();
     fragment.setArguments(args);
     return fragment;
   }
@@ -64,8 +64,8 @@ public class GenericFragment extends Fragment {
       list = (ArrayList<Result>) savedInstanceState.getSerializable(EXTRA_LIST);
       page = savedInstanceState.getInt(EXTRA_PAGE);
     }
-    adapter = new GenericAdapter(getActivity(), getArguments().getInt(KEY_FROM), list,
-        new GenericAdapter.OnItemClickListener() {
+    adapter = new MoviAdapter(getActivity(), getArguments().getInt(KEY_FROM), list,
+        new MoviAdapter.OnItemClickListener() {
           @Override public void onItemClick(Result model) {
             ((OpenDetailListener) getActivity()).openDetail(model);
           }

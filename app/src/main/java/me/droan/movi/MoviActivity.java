@@ -16,9 +16,9 @@ import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.detail.DetailFragment;
 import me.droan.movi.detail.DetailsActivity;
 import me.droan.movi.favorite.FavouriteFragment;
-import me.droan.movi.popular.GenericFragment;
+import me.droan.movi.movies.MoviFragment;
 
-public class MoviActivity extends AppCompatActivity implements GenericFragment.OpenDetailListener {
+public class MoviActivity extends AppCompatActivity implements MoviFragment.OpenDetailListener {
 
   @Bind(R.id.toolbar) Toolbar toolbar;
   @Bind(R.id.tabLayout) TabLayout tabLayout;
@@ -56,9 +56,9 @@ public class MoviActivity extends AppCompatActivity implements GenericFragment.O
 
   private void initViewPager() {
     Adapter adapter = new Adapter(getSupportFragmentManager());
-    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_POPULAR));
-    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_UPCOMING));
-    adapter.addFragment(GenericFragment.newInstance(GenericFragment.FROM_TOP));
+    adapter.addFragment(MoviFragment.newInstance(MoviFragment.FROM_POPULAR));
+    adapter.addFragment(MoviFragment.newInstance(MoviFragment.FROM_UPCOMING));
+    adapter.addFragment(MoviFragment.newInstance(MoviFragment.FROM_TOP));
     adapter.addFragment(FavouriteFragment.newInstance());
     viewPager.setAdapter(adapter);
   }
