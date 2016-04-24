@@ -4,4 +4,5 @@
   <dimen name="activity_vertical_margin">16dp</dimen>
   <dimen name="grid_spacing">12dp</dimen>
   <dimen name="poster_elevation">8dp</dimen>
+  <dimen name="tab_top">1dp</dimen>
 </resources>

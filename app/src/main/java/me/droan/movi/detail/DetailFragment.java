@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
@@ -31,6 +32,7 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import java.util.ArrayList;
+import java.util.List;
 import me.droan.movi.MoviServices;
 import me.droan.movi.MovieListModel.Result;
 import me.droan.movi.R;
@@ -53,6 +55,9 @@ import retrofit2.Retrofit;
  * Created by drone on 16/04/16.
  */
 public class DetailFragment extends Fragment {
+  private static final String EXTRA_REVIEW = "review";
+  private static final String EXTRA_TRAILER = "trailer";
+  private static final String EXTRA_CAST = "cast";
   @Bind(R.id.title) TextView title;
   @Bind(R.id.poster) SimpleDraweeView poster;
   @Bind(R.id.backdrop) SimpleDraweeView backdrop;
@@ -69,6 +74,12 @@ public class DetailFragment extends Fragment {
   @Bind(R.id.favorite) Button favorite;
   @Bind(R.id.parent_layout) LinearLayout root;
   private Result model;
+  private List<me.droan.movi.detail.review.model.Result> reviewModel = new ArrayList<>();
+  private List<me.droan.movi.detail.video.model.Result> trailerModel = new ArrayList<>();
+  private List<Cast> castModel = new ArrayList<>();
+  private ReviewAdapter reviewAdapter;
+  private CastAdapter castAdapter;
+  private TrailerAdapter trailerAdapter;
 
   public static DetailFragment newInstance(Result model) {
     Bundle args = new Bundle();
@@ -81,6 +92,31 @@ public class DetailFragment extends Fragment {
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     model = (Result) getArguments().getSerializable("KEY");
+    if (savedInstanceState == null) {
+      handleReviewService();
+      handleTrailerService();
+      handleCastService();
+    } else {
+      reviewModel = savedInstanceState.getParcelableArrayList(EXTRA_REVIEW);
+      castModel = savedInstanceState.getParcelableArrayList(EXTRA_CAST);
+      trailerModel = savedInstanceState.getParcelableArrayList(EXTRA_TRAILER);
+    }
+  }
+
+  private void setAdapters() {
+    reviewAdapter = new ReviewAdapter(getActivity(), reviewModel);
+    castAdapter = new CastAdapter(getActivity(), castModel);
+    trailerAdapter = new TrailerAdapter(getActivity(), trailerModel);
+    reviewRecycler.setAdapter(reviewAdapter);
+    castRecycler.setAdapter(castAdapter);
+    trailerRecycler.setAdapter(trailerAdapter);
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelableArrayList(EXTRA_TRAILER, (ArrayList<? extends Parcelable>) trailerModel);
+    outState.putParcelableArrayList(EXTRA_CAST, (ArrayList<? extends Parcelable>) castModel);
+    outState.putParcelableArrayList(EXTRA_REVIEW, (ArrayList<? extends Parcelable>) reviewModel);
   }
 
   @Nullable @Override
@@ -88,21 +124,15 @@ public class DetailFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_detail, container, false);
     ButterKnife.bind(this, view);
-    trailerRecycler.setAdapter(new ReviewAdapter(getActivity(),
-        new ArrayList<me.droan.movi.detail.review.model.Result>()));
+    setAdapters();
     trailerRecycler.setLayoutManager(
         new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-    castRecycler.setAdapter(new CastAdapter(getActivity(), new ArrayList<Cast>()));
     castRecycler.setLayoutManager(
         new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-    reviewRecycler.setAdapter(new ReviewAdapter(getActivity(),
-        new ArrayList<me.droan.movi.detail.review.model.Result>()));
+
     reviewRecycler.setLayoutManager(new UnscrollableLinearLayoutManager(getActivity()));
-    //tralerRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
     changeFav();
-    handleReviewService();
-    handleTrailerService();
-    handleCastService();
+    checkRotation();
     title.setText(model.title);
     Uri posterUri = Uri.parse(Constants.POSTER_BASE + model.poster_path);
     poster.setImageURI(posterUri);
@@ -124,6 +154,21 @@ public class DetailFragment extends Fragment {
     return view;
   }
 
+  private void checkRotation() {
+    if (castModel != null && castModel.size() > 0) {
+      cardCast.setVisibility(View.VISIBLE);
+      castAdapter.refresh(castModel);
+    }
+    if (reviewModel != null && reviewModel.size() > 0) {
+      cardReview.setVisibility(View.VISIBLE);
+      reviewAdapter.refresh(reviewModel);
+    }
+    if (trailerModel != null && trailerModel.size() > 0) {
+      cardTrailer.setVisibility(View.VISIBLE);
+      trailerAdapter.refresh(trailerModel);
+    }
+  }
+
   private void handleCastService() {
     Retrofit retrofit = RetrofitHelper.getRetrofitObj();
     MoviServices service = retrofit.create(MoviServices.class);
@@ -131,10 +176,10 @@ public class DetailFragment extends Fragment {
     call.enqueue(new Callback<CastModel>() {
       @Override public void onResponse(Call<CastModel> call, Response<CastModel> response) {
         if (response.isSuccessful()) {
-          CastModel model = response.body();
-          if (model.cast.size() > 0) {
+          castModel = response.body().cast;
+          if (castModel.size() > 0) {
             cardCast.setVisibility(View.VISIBLE);
-            castRecycler.setAdapter(new CastAdapter(getActivity(), model.cast));
+            castAdapter.refresh(castModel);
           }
         }
       }
@@ -157,12 +202,14 @@ public class DetailFragment extends Fragment {
       }
 
       @Override protected void onNewResultImpl(@Nullable Bitmap bitmap) {
-        Palette.from(bitmap).maximumColorCount(50).generate(new Palette.PaletteAsyncListener() {
+        Palette.from(bitmap).maximumColorCount(64).generate(new Palette.PaletteAsyncListener() {
           @Override public void onGenerated(Palette palette) {
-            if (getActivity().getWindow() != null) {
-              getActivity().getWindow()
-                  .getDecorView()
-                  .setBackgroundColor(palette.getMutedColor(0x000000));
+            int mutedColor = palette.getMutedColor(0xFFFFFF);
+            if (mutedColor > 0) {
+              mutedColor = -1 * mutedColor / 2;
+            }
+            if (getActivity() != null) {
+              getActivity().getWindow().getDecorView().setBackgroundColor(mutedColor);
             }
             final int cardColor = palette.getMutedColor(0) + 1000;
             cardCast.setCardBackgroundColor(cardColor);
@@ -219,10 +266,10 @@ public class DetailFragment extends Fragment {
     call.enqueue(new Callback<ReviewModel>() {
       @Override public void onResponse(Call<ReviewModel> call, Response<ReviewModel> response) {
         if (response.isSuccessful()) {
-          ReviewModel model = response.body();
-          if (model.results.size() > 0) {
+          reviewModel = response.body().results;
+          if (reviewModel.size() > 0) {
             cardReview.setVisibility(View.VISIBLE);
-            reviewRecycler.setAdapter(new ReviewAdapter(getActivity(), model.results));
+            reviewAdapter.refresh(reviewModel);
           }
         }
       }
@@ -240,10 +287,10 @@ public class DetailFragment extends Fragment {
     call.enqueue(new Callback<VideoModel>() {
       @Override public void onResponse(Call<VideoModel> call, Response<VideoModel> response) {
         if (response.isSuccessful()) {
-          VideoModel model = response.body();
-          if (model.results.size() > 0) {
+          trailerModel = response.body().results;
+          if (trailerModel.size() > 0) {
             cardTrailer.setVisibility(View.VISIBLE);
-            trailerRecycler.setAdapter(new TrailerAdapter(getActivity(), model.results));
+            trailerAdapter.refresh(trailerModel);
           }
         }
       }

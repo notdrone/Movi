@@ -28,6 +28,9 @@
     <provider
         android:name=".favorite.db.FavoriteProvider"
         android:authorities="me.droan.movi"/>
+    <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="9937594a388b3cc5a10d53db1e09e6703b2c4a74"/>
   </application>
 
 </manifest>

@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
+    android:paddingTop="@dimen/tab_top"
     >
   <android.support.v4.widget.NestedScrollView
       android:layout_width="match_parent"

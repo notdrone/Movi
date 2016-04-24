@@ -40,6 +40,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Holder> {
     return list.size();
   }
 
+  public void refresh(List<Result> reviewModel) {
+    this.list = reviewModel;
+    notifyDataSetChanged();
+  }
+
   class Holder extends RecyclerView.ViewHolder {
     @Bind(R.id.author) TextView author;
     @Bind(R.id.review) TextView review;

@@ -1,9 +1,10 @@
 package me.droan.movi.detail.review.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewModel {
+public class ReviewModel implements Serializable {
 
   public int id;
   public int page;

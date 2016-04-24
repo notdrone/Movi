@@ -42,6 +42,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.Holder> 
     return list.size();
   }
 
+  public void refresh(List<Result> trailerModel) {
+    this.list = trailerModel;
+    notifyDataSetChanged();
+  }
+
   class Holder extends RecyclerView.ViewHolder {
     @Bind(R.id.videoThumb) SimpleDraweeView viewThumb;
     public Holder(View itemView) {

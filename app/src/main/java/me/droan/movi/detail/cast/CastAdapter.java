@@ -42,6 +42,11 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.Holder> {
     return cast.size();
   }
 
+  public void refresh(List<Cast> castModel) {
+    this.cast = castModel;
+    notifyDataSetChanged();
+  }
+
   class Holder extends RecyclerView.ViewHolder {
     @Bind(R.id.castProfile) SimpleDraweeView castProfile;
     public Holder(View itemView) {

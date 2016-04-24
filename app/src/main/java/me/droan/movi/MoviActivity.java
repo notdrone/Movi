@@ -18,7 +18,7 @@ import me.droan.movi.detail.DetailsActivity;
 import me.droan.movi.favorite.FavouriteFragment;
 import me.droan.movi.popular.GenericFragment;
 
-public class MoviActivity extends AppCompatActivity implements MoviFragment.OpenDetailListener {
+public class MoviActivity extends AppCompatActivity implements GenericFragment.OpenDetailListener {
 
   @Bind(R.id.toolbar) Toolbar toolbar;
   @Bind(R.id.tabLayout) TabLayout tabLayout;
