@@ -88,10 +88,12 @@ public class MoviFragment extends Fragment {
     call.enqueue(new Callback<MovieList>() {
       @Override public void onResponse(Call<MovieList> call, Response<MovieList> response) {
         serviceCalled = false;
-        MovieList movieList = response.body();
-        list.addAll((ArrayList<Result>) movieList.results);
-        adapter.refresh(list);
-        incrementPager();
+        if (response.isSuccessful()) {
+          MovieList movieList = response.body();
+          list.addAll((ArrayList<Result>) movieList.results);
+          adapter.refresh(list);
+          incrementPager();
+        }
       }
 
       @Override public void onFailure(Call<MovieList> call, Throwable t) {
