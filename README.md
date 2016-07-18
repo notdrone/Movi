@@ -9,6 +9,6 @@ This is the second project in Udacity's Android Developer Nanodegree. The purpos
 
 ### Getting Started
 
-App uses The Movie Database API. You have to enter your API key in order to run the app. You can create your own one very easy! https://www.themoviedb.org/account/signup?language=en-EN. When you get it, just set it here:  Constants.java
+App uses The Movie Database API. You have to enter your API key in order to run the app. You can create your own one very easy! https://www.themoviedb.org/account/signup?language=en-EN. When you get it, just set it here:  [Constants.java](https://github.com/droanmalik/Movi/blob/master/app/src/main/java/me/droan/movi/utils/Constants.java)
 
 
